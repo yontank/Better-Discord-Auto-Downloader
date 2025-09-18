@@ -37,41 +37,6 @@ def get_discord_path() -> str | None:
 
     return discord_path
 
-
-def get_bc_asar_location(file: str) -> str | None:
-    rx_get_better_discord_path = re.compile(r"^require\(\"(.*)\"\)\;$")
-
-    with open(file, 'r') as f:
-        for line in f:
-            if ('betterdiscord.asar' in line) or ('BetterDiscord' in line):
-                val = re.match(rx_get_better_discord_path, line)
-
-                if val is None:
-                    return None
-
-                val = val.group(1)
-                return val
-
-
 def get_bc_location() -> str | None:
     pass
 
-
-def main():
-    discord_path = get_discord_path()
-    
-    if not discord_path:
-        raise Exception("Didn't Find discord path.")
-
-    bc_path = get_bc_asar_location(discord_path)
-
-    if bc_path is None:
-        raise Exception("Couldn't Find Better Discord Folder")
-
-    print(bc_path)
-    if (os.path.exists(bc_path)):
-        print("Discord is connected to better discord!")
-
-
-if __name__ == '__main__':
-    main()
